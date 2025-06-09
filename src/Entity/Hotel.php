@@ -9,11 +9,22 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
 
 #[ORM\Entity(repositoryClass: HotelRepository::class)]
 #[ApiResource(
     normalizationContext: ['groups' => ['hotel:read']],
-    processor: HotelProcessor::class
+    operations: [
+        new Post(processor: HotelProcessor::class),
+        new Get(),
+        new GetCollection(),
+        new Patch(),
+        new Delete(),
+    ]
 )]
 class Hotel
 {
