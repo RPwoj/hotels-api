@@ -4,13 +4,17 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\HotelRepository;
+use App\State\HotelProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: HotelRepository::class)]
-#[ApiResource(normalizationContext: ['groups' => ['hotel:read']])]
+#[ApiResource(
+    normalizationContext: ['groups' => ['hotel:read']],
+    processor: HotelProcessor::class
+)]
 class Hotel
 {
     #[ORM\Id]
