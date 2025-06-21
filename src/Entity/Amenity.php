@@ -6,9 +6,17 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\AmenityRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
 
 #[ORM\Entity(repositoryClass: AmenityRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['amenity:read']],
+    operations: [new Get(), new GetCollection()]
+)]
 class Amenity
 {
     #[ORM\Id]
