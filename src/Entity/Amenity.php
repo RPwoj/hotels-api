@@ -14,7 +14,6 @@ use ApiPlatform\Metadata\Delete;
 
 #[ORM\Entity(repositoryClass: AmenityRepository::class)]
 #[ApiResource(
-    normalizationContext: ['groups' => ['amenity:read']],
     operations: [new Get(), new GetCollection()]
 )]
 class Amenity
