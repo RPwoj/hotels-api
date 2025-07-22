@@ -14,10 +14,12 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: HotelRepository::class)]
 #[ApiResource(
     normalizationContext: ['groups' => ['hotel:read']],
+    denormalizationContext: ['groups' => ['hotel:write']],
     operations: [
         new Post(processor: HotelProcessor::class),
         new Get(),
@@ -35,14 +37,15 @@ class Hotel
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['hotel:read'])]
+    #[Groups(['hotel:read', 'hotel:write'])]
+    #[Assert\NotBlank(message: "Hotel name cannot be empty.")]
     private ?string $name = null;
 
     /**
      * @var Collection<int, Amenity>
      */
     #[ORM\ManyToMany(targetEntity: Amenity::class)]
-    #[Groups(['hotel:read'])]
+    #[Groups(['hotel:read', 'hotel:write'])]
     private Collection $amenities;
 
     public function __construct()
